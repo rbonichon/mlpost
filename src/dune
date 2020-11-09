@@ -5,9 +5,12 @@
   (libraries unix bitstring cairo2 mlpost_version)
   (preprocess (pps bitstring.ppx img))
   (c_names ml_mlpost_ft)
-  (c_library_flags -L/nix/store/3gb0hc4r2k2lvbw6vq8rz5c2jzb330yi-cairo-1.16.0/lib -L/nix/store/g44ff4vpp4s5dyh42inczan8ckv9bh6j-freetype-2.10.2/lib -lcairo -lfreetype)
-  (c_flags -I/nix/store/x9gx0a2lw9qrql5bmmfj6780rc0b1car-cairo-1.16.0-dev/include/cairo -I/nix/store/mzz2yvqzwmj7796754zg4f1fb9cznar3-freetype-2.10.2-dev/include/freetype2 -I/nix/store/mzz2yvqzwmj7796754zg4f1fb9cznar3-freetype-2.10.2-dev/include -I/nix/store/mzz2yvqzwmj7796754zg4f1fb9cznar3-freetype-2.10.2-dev/include/freetype2)
-)
+  (c_library_flags (:include c_library_flags.sexp))
+  (c_flags (:include c_flags.sexp)))
 
 (ocamllex scan_prelude pfb_lexer map_lexer)
 (ocamlyacc pfb_parser map_parser)
+
+(rule
+ (targets c_flags.sexp c_library_flags.sexp)
+ (action  (run ./config/discover.exe)))
