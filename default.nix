@@ -12,6 +12,7 @@ let
       cairo2
       ocaml
       dune
+      merlin
     ]
   );
   packages = with pkgs; [
